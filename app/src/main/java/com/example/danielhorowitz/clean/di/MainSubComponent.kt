@@ -1,5 +1,6 @@
-import com.dhorowitz.groupin.di.PerActivity
-import com.example.danielhorowitz.clean.MainActivity
+package com.example.danielhorowitz.clean.di
+
+import com.example.danielhorowitz.clean.presentation.MainActivity
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 

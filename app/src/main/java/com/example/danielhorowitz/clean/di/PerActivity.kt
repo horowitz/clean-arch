@@ -1,4 +1,4 @@
-package com.dhorowitz.groupin.di
+package com.example.danielhorowitz.clean.di
 
 import javax.inject.Scope
 

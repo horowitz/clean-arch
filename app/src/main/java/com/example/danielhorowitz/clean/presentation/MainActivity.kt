@@ -1,7 +1,8 @@
-package com.example.danielhorowitz.clean
+package com.example.danielhorowitz.clean.presentation
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.example.danielhorowitz.clean.R
 
 class MainActivity : AppCompatActivity() {
 

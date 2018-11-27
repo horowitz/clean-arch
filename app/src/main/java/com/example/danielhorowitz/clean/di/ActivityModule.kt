@@ -1,4 +1,7 @@
+package com.example.danielhorowitz.clean.di
 import android.app.Activity
+import com.example.danielhorowitz.clean.Navigator
+import com.example.danielhorowitz.clean.NavigatorImpl
 import dagger.Module
 import dagger.Provides
 

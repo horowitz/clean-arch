@@ -1,3 +1,5 @@
+package com.example.danielhorowitz.clean
+
 import android.app.Activity
 import android.support.v4.app.Fragment
 
@@ -8,8 +10,5 @@ class NavigatorImpl(
     private val activity: Activity,
     private val fragment: Fragment? = null
 ) : Navigator {
-
     constructor(fragment: Fragment) : this(fragment.activity as Activity, fragment)
-
-
 }

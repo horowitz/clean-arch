@@ -1,5 +1,8 @@
+package com.example.danielhorowitz.clean.di.app
+
 import android.app.Activity
-import com.example.danielhorowitz.clean.MainActivity
+import com.example.danielhorowitz.clean.presentation.MainActivity
+import com.example.danielhorowitz.clean.di.MainSubComponent
 import dagger.Binds
 import dagger.Module
 import dagger.android.ActivityKey

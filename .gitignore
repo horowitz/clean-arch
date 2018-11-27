@@ -28,3 +28,4 @@ Thumbs.db
 
 .*
 !/.gitignore
+app/src/main/java/com/example/danielhorowitz/clean/data/network/NetworkConfig.kt

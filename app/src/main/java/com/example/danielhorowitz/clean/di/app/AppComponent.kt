@@ -1,4 +1,5 @@
-import com.dhorowitz.groupin.di.app.*
+package com.example.danielhorowitz.clean.di.app
+
 import com.example.danielhorowitz.clean.CleanApplication
 import dagger.BindsInstance
 import dagger.Component
