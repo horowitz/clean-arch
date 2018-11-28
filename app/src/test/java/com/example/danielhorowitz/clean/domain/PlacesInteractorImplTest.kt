@@ -41,11 +41,11 @@ class PlacesInteractorImplTest {
             .observeOn(Schedulers.trampoline())
             .subscribeOn(Schedulers.trampoline())
             .test()
+
         result.assertNoErrors()
         val places = result.values().first()
-
         assertNotNull(places)
-//        assert(places.size == nearbySearchResults.size)
+        assert(places.size == nearbySearchDTO.results?.size)
     }
 
     private fun givenNearbySearchSuccessful() {

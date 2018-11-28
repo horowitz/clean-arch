@@ -12,10 +12,17 @@ import org.mapstruct.factory.Mappers
  */
 class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepository) : PlacesInteractor {
 
+    companion object {
+        private const val RADIUS = 500.0
+        private const val RESTAURANT_TYPE = "restaurant"
+        private const val RANK_BY_DISTANCE = "distance"
+    }
+
 
     override fun fetchNearbyRestaurants(latitude: Double, longitude: Double): Single<List<Place>> {
         val latLng = "$latitude, $longitude"
-        return googlePlacesRepository.nearbySearch(latLng, 500.0, "restaurant", "distance")
+
+        return googlePlacesRepository.nearbySearch(latLng, RADIUS, RESTAURANT_TYPE, RANK_BY_DISTANCE)
             .map { it.results ?: listOf() }
             .flattenAsObservable { it }
             .flatMap { googlePlacesRepository.getPlacesDetails(it.placeId) }
