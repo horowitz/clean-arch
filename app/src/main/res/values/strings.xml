@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Clean-Arch</string>
+    <string name="unexpected_error">An error has occurred</string>
 </resources>
