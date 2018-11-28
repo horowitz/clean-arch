@@ -1,8 +1,8 @@
 package com.example.danielhorowitz.clean.di.app
 
 import android.app.Activity
-import com.example.danielhorowitz.clean.presentation.MainActivity
-import com.example.danielhorowitz.clean.di.MainSubComponent
+import com.example.danielhorowitz.clean.di.places.PlacesSubComponent
+import com.example.danielhorowitz.clean.presentation.PlacesActivity
 import dagger.Binds
 import dagger.Module
 import dagger.android.ActivityKey
@@ -17,7 +17,7 @@ abstract class BuildersModule {
 
     @Binds
     @IntoMap
-    @ActivityKey(MainActivity::class)
-    abstract fun bindMainActivityInjectorFactory(builder: MainSubComponent.Builder): AndroidInjector.Factory<out Activity>
+    @ActivityKey(PlacesActivity::class)
+    abstract fun bindPlacesActivityInjectorFactory(builder: PlacesSubComponent.Builder): AndroidInjector.Factory<out Activity>
 
 }

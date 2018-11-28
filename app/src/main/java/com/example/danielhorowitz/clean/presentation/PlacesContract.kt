@@ -8,12 +8,10 @@ import com.example.danielhorowitz.clean.presentation.common.BaseView
  */
 interface PlacesContract {
     interface View : BaseView {
-        fun showCompletionIndicator()
-        fun showSavingIndicator()
-        fun updatePlaces(place: Place)
+        fun showPlaces(place: List<Place>)
     }
 
     interface Presenter {
-
+        fun onLocationObtained(lat: Double, lng: Double)
     }
 }

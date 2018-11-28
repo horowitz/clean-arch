@@ -16,17 +16,18 @@ class PlacesPresenter(
     subscribeOn: Scheduler
 ) : RxPresenter(observeOn, subscribeOn), PlacesContract.Presenter {
 
+    override fun onLocationObtained(lat: Double, lng: Double) {
+        view.showLoading()
 
-    private fun fetchNearbyPlaces(longitude: Double, latitude: Double) {
-        disposable = interactor.fetchNearbyRestaurants(latitude, longitude)
+        disposable = interactor.fetchNearbyRestaurants(lat, lng)
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
-            .subscribe({
+            .subscribe({ places ->
                 view.hideLoading()
-//                view.updatePlaces(it)
-            }, {
+                view.showPlaces(places)
+            }, { error ->
                 view.hideLoading()
-                view.showError(it, TAG)
+                view.showError(error, TAG)
             })
     }
 

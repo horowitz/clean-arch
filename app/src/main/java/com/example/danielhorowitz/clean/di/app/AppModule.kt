@@ -2,7 +2,7 @@ package com.example.danielhorowitz.clean.di.app
 
 import android.content.Context
 import com.example.danielhorowitz.clean.CleanApplication
-import com.example.danielhorowitz.clean.di.MainSubComponent
+import com.example.danielhorowitz.clean.di.places.PlacesSubComponent
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
@@ -15,7 +15,7 @@ import javax.inject.Named
  */
 @Module(
     subcomponents = [
-        (MainSubComponent::class)
+        (PlacesSubComponent::class)
     ]
 )
 class AppModule {
