@@ -9,6 +9,8 @@ import com.example.danielhorowitz.clean.domain.PlacesInteractorImpl
 import com.example.danielhorowitz.clean.presentation.PlacesActivity
 import com.example.danielhorowitz.clean.presentation.PlacesContract
 import com.example.danielhorowitz.clean.presentation.PlacesPresenter
+import com.example.danielhorowitz.clean.presentation.common.LocationHandler
+import com.example.danielhorowitz.clean.presentation.common.LocationHandlerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -42,5 +44,10 @@ abstract class PlacesModule {
                                       @Named("observeOn") observeOn: Scheduler,
                                       @Named("subscribeOn") subscribeOn: Scheduler): PlacesContract.Presenter =
                 PlacesPresenter(view, interactor, navigator, observeOn, subscribeOn)
+
+        @Provides
+        @PerActivity
+        @JvmStatic
+        internal fun provideLocationHandler(activity: PlacesActivity): LocationHandler = LocationHandlerImpl(activity)
     }
 }

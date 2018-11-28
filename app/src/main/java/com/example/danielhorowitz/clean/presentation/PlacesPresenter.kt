@@ -4,6 +4,7 @@ import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
 import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by danielhorowitz on 17/02/18.
@@ -16,10 +17,12 @@ class PlacesPresenter(
     subscribeOn: Scheduler
 ) : RxPresenter(observeOn, subscribeOn), PlacesContract.Presenter {
 
-    override fun onLocationObtained(lat: Double, lng: Double) {
+    override fun onViewReady() {
         view.showLoading()
 
-        disposable = interactor.fetchNearbyRestaurants(lat, lng)
+        disposable = view.getCurrentLocation()
+            .observeOn(Schedulers.io())
+            .flatMap { location -> interactor.fetchNearbyRestaurants(location.latitude,location.longitude) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
             .subscribe({ places ->

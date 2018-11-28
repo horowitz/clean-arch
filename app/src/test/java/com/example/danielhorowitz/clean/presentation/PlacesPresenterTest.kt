@@ -2,6 +2,7 @@ package com.example.danielhorowitz.clean.presentation
 
 import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
+import com.example.danielhorowitz.clean.domain.model.Location
 import com.example.danielhorowitz.clean.domain.model.Place
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
@@ -34,7 +35,9 @@ class PlacesPresenterTest {
     @Test
     fun `should show loading when fetching nearby places`() {
         givenFetchNearbyPlacesSuccessful(emptyList())
-        presenter.onLocationObtained(0.0, 0.0)
+        givenLocationObtained()
+
+        presenter.onViewReady()
 
         verify(view).showLoading()
     }
@@ -42,9 +45,15 @@ class PlacesPresenterTest {
     @Test
     fun `should hide loading when nearby places fetched`() {
         givenFetchNearbyPlacesSuccessful(emptyList())
-        presenter.onLocationObtained(0.0, 0.0)
+        givenLocationObtained()
+
+        presenter.onViewReady()
 
         verify(view).hideLoading()
+    }
+
+    private fun givenLocationObtained() {
+        whenever(view.getCurrentLocation()).thenReturn(Single.just(Location(0.0, 0.0)))
     }
 
     private fun givenFetchNearbyPlacesSuccessful(places: List<Place>) {
