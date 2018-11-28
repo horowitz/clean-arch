@@ -22,7 +22,7 @@ class PlacesPresenterTest {
     @Mock
     lateinit var navigator: Navigator
 
-    val presenter by lazy {
+    private val presenter by lazy {
         PlacesPresenter(view, interactor, navigator, Schedulers.trampoline(), Schedulers.trampoline())
     }
 

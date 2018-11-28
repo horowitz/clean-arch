@@ -3,7 +3,7 @@ package com.example.danielhorowitz.clean.domain
 import com.example.danielhorowitz.clean.data.model.NearbySearchDTO
 import com.example.danielhorowitz.clean.data.model.PlaceDetailsDTO
 import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
-import com.google.gson.Gson
+import com.example.danielhorowitz.clean.fromJson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
@@ -20,8 +20,8 @@ class PlacesInteractorImplTest {
     @Mock
     lateinit var googlePlacesRepository: GooglePlacesRepository
 
-    lateinit var nearbySearchDTO: NearbySearchDTO
-    lateinit var placeDetailsDTO: PlaceDetailsDTO
+    private lateinit var nearbySearchDTO: NearbySearchDTO
+    private lateinit var placeDetailsDTO: PlaceDetailsDTO
 
     private val interactor by lazy { PlacesInteractorImpl(googlePlacesRepository) }
 
@@ -65,5 +65,3 @@ class PlacesInteractorImplTest {
     }
 
 }
-
-fun <T> File.fromJson(type: Class<T>): T = Gson().fromJson(this.readText(), type)
