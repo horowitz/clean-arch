@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.danielhorowitz.clean.R
 import com.example.danielhorowitz.clean.domain.model.Place
+import com.example.danielhorowitz.clean.presentation.common.loadCircular
 
 
 /**
@@ -30,8 +32,10 @@ class PlacesAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvSubtitle = itemView.findViewById<TextView>(R.id.tvSubtitle)
+        private val ivPlace = itemView.findViewById<ImageView>(R.id.ivPlace)
 
         fun bind(place: Place, itemClicked: (Place) -> Unit) {
+            ivPlace.loadCircular(place.images.first())
             tvTitle.text = place.name
             tvSubtitle.text = place.vicinity
             itemView.setOnClickListener { itemClicked(place) }

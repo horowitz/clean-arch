@@ -6,8 +6,15 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="8dp">
+    <ImageView
+            android:id="@+id/ivPlace"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
 
     <LinearLayout
+            android:layout_toRightOf="@+id/ivPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
