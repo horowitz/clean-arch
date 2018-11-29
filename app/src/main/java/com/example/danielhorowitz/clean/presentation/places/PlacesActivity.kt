@@ -20,7 +20,7 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     @Inject
     lateinit var locationHandler: LocationHandler
 
-    var adapter: PlacesAdapter? = null
+    private var adapter: PlacesAdapter? = null
 
     private val places: MutableList<Place> = mutableListOf()
 
@@ -46,9 +46,6 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
 
     override fun showError(throwable: Throwable, tag: String, message: Int) {
         Toast.makeText(this.applicationContext, R.string.unexpected_error, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun dismissView() {
     }
 
     override fun showLoading() {
