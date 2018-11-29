@@ -55,4 +55,9 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     override fun hideLoading() {
         progress.visibility = View.GONE
     }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.pause()
+    }
 }
