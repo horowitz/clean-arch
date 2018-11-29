@@ -18,7 +18,7 @@ class PlacesPresenter(
 ) : RxPresenter(observeOn, subscribeOn), PlacesContract.Presenter {
 
     override fun onPlaceClicked(place: Place) {
-
+        navigator.navigateToPlaceDetails(place)
     }
 
     override fun onViewReady() {

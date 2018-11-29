@@ -19,25 +19,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Event name"/>
-
-        <TextView
-                android:id="@+id/tvSubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                tools:text="Subtitle"/>
-
-        <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Author name"/>
+        <include layout="@layout/place_content"/>
     </LinearLayout>
 
 </RelativeLayout>

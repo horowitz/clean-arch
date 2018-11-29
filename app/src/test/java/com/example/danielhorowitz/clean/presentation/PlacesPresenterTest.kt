@@ -42,6 +42,14 @@ class PlacesPresenterTest {
     }
 
     @Test
+    fun `should navigate to details when place is clicked`() {
+        val place = Place()
+        presenter.onPlaceClicked(place)
+
+        verify(navigator).navigateToPlaceDetails(place)
+    }
+
+    @Test
     fun `should show places given fetch nearby places successful`() {
         val expectedPlaces = emptyList<Place>()
         givenFetchNearbyPlacesSuccessful(expectedPlaces)

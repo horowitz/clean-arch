@@ -32,7 +32,7 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
 
     private fun convertToPresentation(placeDetailsDTO: PlaceDetailsDTO): Place {
         val place = Mappers.getMapper(GooglePlacesMapper::class.java).convertPlaceDetails(placeDetailsDTO.result)
-        placeDetailsDTO.result.photos?.first()?.let { place.addPhotoFromGooglePlaces(it.photoReference) }
+        placeDetailsDTO.result.photos?.forEach { place.addPhotoFromGooglePlaces(it.photoReference) }
         return place
     }
 
