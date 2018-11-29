@@ -7,6 +7,7 @@ import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.places.PlacesContract
 import com.example.danielhorowitz.clean.presentation.places.PlacesPresenter
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
@@ -41,6 +42,28 @@ class PlacesPresenterTest {
     }
 
     @Test
+    fun `should show places given fetch nearby places successful`() {
+        val expectedPlaces = emptyList<Place>()
+        givenFetchNearbyPlacesSuccessful(expectedPlaces)
+        givenLocationObtained()
+
+        presenter.onViewReady()
+
+        verify(view).showPlaces(expectedPlaces)
+    }
+
+    @Test
+    fun `should show error given fetch nearby places fails`() {
+        val exception = Exception()
+        givenFetchNearbyPlacesFails(exception)
+        givenLocationObtained()
+
+        presenter.onViewReady()
+
+        verify(view).showError(eq(exception), any(), any())
+    }
+
+    @Test
     fun `should show loading when fetching nearby places`() {
         givenFetchNearbyPlacesSuccessful(emptyList())
         givenLocationObtained()
@@ -58,6 +81,10 @@ class PlacesPresenterTest {
         presenter.onViewReady()
 
         verify(view).hideLoading()
+    }
+
+    private fun givenFetchNearbyPlacesFails(exception: Exception) {
+        whenever(interactor.fetchNearbyRestaurants(any(), any())).thenReturn(Single.error(exception))
     }
 
     private fun givenLocationObtained() {

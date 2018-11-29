@@ -5,7 +5,6 @@ import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
 import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by danielhorowitz on 17/02/18.
@@ -26,7 +25,7 @@ class PlacesPresenter(
         view.showLoading()
 
         disposable = view.getCurrentLocation()
-            .observeOn(Schedulers.io())
+            .observeOn(subscribeOn)
             .flatMap { location -> interactor.fetchNearbyRestaurants(location.latitude, location.longitude) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
@@ -35,10 +34,7 @@ class PlacesPresenter(
                 view.showPlaces(places)
             }, { error ->
                 view.hideLoading()
-                view.showError(
-                    error,
-                    TAG
-                )
+                view.showError(error, TAG)
             })
     }
 
