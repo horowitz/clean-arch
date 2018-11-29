@@ -4,6 +4,8 @@ import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.model.Location
 import com.example.danielhorowitz.clean.domain.model.Place
+import com.example.danielhorowitz.clean.presentation.places.PlacesContract
+import com.example.danielhorowitz.clean.presentation.places.PlacesPresenter
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -24,7 +26,13 @@ class PlacesPresenterTest {
     lateinit var navigator: Navigator
 
     private val presenter by lazy {
-        PlacesPresenter(view, interactor, navigator, Schedulers.trampoline(), Schedulers.trampoline())
+        PlacesPresenter(
+            view,
+            interactor,
+            navigator,
+            Schedulers.trampoline(),
+            Schedulers.trampoline()
+        )
     }
 
     @Before

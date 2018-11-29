@@ -6,9 +6,9 @@ import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
 import com.example.danielhorowitz.clean.di.PerActivity
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.PlacesInteractorImpl
-import com.example.danielhorowitz.clean.presentation.PlacesActivity
-import com.example.danielhorowitz.clean.presentation.PlacesContract
-import com.example.danielhorowitz.clean.presentation.PlacesPresenter
+import com.example.danielhorowitz.clean.presentation.places.PlacesActivity
+import com.example.danielhorowitz.clean.presentation.places.PlacesContract
+import com.example.danielhorowitz.clean.presentation.places.PlacesPresenter
 import com.example.danielhorowitz.clean.presentation.common.LocationHandler
 import com.example.danielhorowitz.clean.presentation.common.LocationHandlerImpl
 import dagger.Binds
@@ -43,7 +43,13 @@ abstract class PlacesModule {
                                       interactor: PlacesInteractor,
                                       @Named("observeOn") observeOn: Scheduler,
                                       @Named("subscribeOn") subscribeOn: Scheduler): PlacesContract.Presenter =
-                PlacesPresenter(view, interactor, navigator, observeOn, subscribeOn)
+            PlacesPresenter(
+                view,
+                interactor,
+                navigator,
+                observeOn,
+                subscribeOn
+            )
 
         @Provides
         @PerActivity

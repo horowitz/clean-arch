@@ -1,4 +1,4 @@
-package com.example.danielhorowitz.clean.presentation
+package com.example.danielhorowitz.clean.presentation.places
 
 import com.example.danielhorowitz.clean.domain.model.Location
 import com.example.danielhorowitz.clean.domain.model.Place
@@ -10,11 +10,12 @@ import io.reactivex.Single
  */
 interface PlacesContract {
     interface View : BaseView {
-        fun showPlaces(place: List<Place>)
+        fun showPlaces(places: List<Place>)
         fun getCurrentLocation(): Single<Location>
     }
 
     interface Presenter {
         fun onViewReady()
+        fun onPlaceClicked(place: Place)
     }
 }

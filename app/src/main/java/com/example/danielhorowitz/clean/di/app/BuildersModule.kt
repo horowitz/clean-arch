@@ -2,7 +2,7 @@ package com.example.danielhorowitz.clean.di.app
 
 import android.app.Activity
 import com.example.danielhorowitz.clean.di.places.PlacesSubComponent
-import com.example.danielhorowitz.clean.presentation.PlacesActivity
+import com.example.danielhorowitz.clean.presentation.places.PlacesActivity
 import dagger.Binds
 import dagger.Module
 import dagger.android.ActivityKey

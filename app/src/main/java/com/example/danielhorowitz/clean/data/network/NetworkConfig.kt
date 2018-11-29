@@ -5,7 +5,7 @@ package com.example.danielhorowitz.clean.data.network
  */
 object NetworkConfig {
     const val GOOGLE_MAPS_API = "https://maps.googleapis.com"
-    const val GOOGLE_MAPS_KEY = "yourkey"
+    const val GOOGLE_MAPS_KEY = "your_maps_key"
 
     const val GOOGLE_PLACES_API_PATH = "maps/api/place/details/json"
     const val GOOGLE_NEARBY_SEARCH_API_PATH = "maps/api/place/nearbysearch/json"
