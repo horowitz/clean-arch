@@ -12,3 +12,12 @@ fun ImageView.loadCircular(url: String, placeholder: Int? = null) {
         placeholder?.let { Picasso.get().load(R.drawable.ic_image).into(this) }
     }
 }
+
+fun ImageView.load(url: String, placeholder: Int? = null) {
+    if (url.isNotBlank()) {
+        val picasso = Picasso.get().load(url)
+        placeholder?.let { picasso.placeholder(it).into(this) } ?: run { picasso.into(this) }
+    } else {
+        placeholder?.let { Picasso.get().load(R.drawable.ic_image).into(this) }
+    }
+}

@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/place_item_width"
+        android:layout_height="@dimen/place_item_height">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/ivPlace"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="8dp">
-    <ImageView
-            android:id="@+id/ivPlace"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true" />
+                android:layout_height="match_parent"/>
 
-    <LinearLayout
-            android:layout_toRightOf="@+id/ivPlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="vertical">
-        <include layout="@layout/place_content"/>
-    </LinearLayout>
 
-</RelativeLayout>
+        <include layout="@layout/place_info_view"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

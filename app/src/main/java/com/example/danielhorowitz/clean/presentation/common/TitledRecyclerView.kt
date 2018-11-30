@@ -14,19 +14,17 @@ class TitledRecyclerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : LinearLayout(context, attrs, defStyle) {
-
+    val recyclerView: RecyclerView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.titled_recycler_view, this, true)
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.addItemDecoration(EqualSpacingItemDecoration(10))
         obtainAttributes(attrs)
     }
 
     fun setTitle(text: String) {
         tvTitle.text = text
-    }
-
-    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
-        recyclerView.adapter = adapter
     }
 
     private fun obtainAttributes(attrs: AttributeSet?) {

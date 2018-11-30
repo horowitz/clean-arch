@@ -3,4 +3,7 @@
     <string name="unexpected_error">An error has occurred</string>
     <string name="location_permission_denied">Location permission denied</string>
     <string name="location_permission_title">Location permission needed</string>
+    <string name="bars">Bars</string>
+    <string name="cafes">Cafes</string>
+    <string name="restaurants">Restaurants</string>
 </resources>

@@ -26,7 +26,7 @@ class PlacesPresenter(
 
         disposable = view.getCurrentLocation()
             .observeOn(subscribeOn)
-            .flatMap { location -> interactor.fetchNearbyRestaurants(location.latitude, location.longitude) }
+            .flatMap { location -> interactor.fetchNearbyPlaces(location.latitude, location.longitude) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
             .subscribe({ places ->
