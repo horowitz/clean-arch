@@ -17,7 +17,8 @@ import org.mapstruct.Mappings
 interface GooglePlacesMapper {
 
     @Mappings(
-            Mapping(source = "placeId", target = "id")
+        Mapping(source = "placeId", target = "id"),
+        Mapping(source = "openingHours.openNow", target = "openNow")
     )
     fun convertNearbySearch(nearbySearchDTO: NearbyPlaceResultDTO): Place
 
