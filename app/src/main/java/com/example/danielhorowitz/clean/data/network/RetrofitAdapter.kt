@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by danielhorowitz on 10/30/16.
@@ -31,7 +32,10 @@ class RetrofitAdapter {
         private fun init() {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+            val client = OkHttpClient.Builder().addInterceptor(interceptor)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .build()
 
             this.googlePlacesRetrofit = Retrofit.Builder()
                     .baseUrl(NetworkConfig.GOOGLE_MAPS_API)
