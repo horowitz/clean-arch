@@ -85,8 +85,8 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
         swipeRefreshLayout.isRefreshing = false
     }
 
-    override fun onPause() {
-        super.onPause()
-        presenter.pause()
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.destroy()
     }
 }

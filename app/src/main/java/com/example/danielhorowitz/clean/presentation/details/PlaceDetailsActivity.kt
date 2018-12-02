@@ -47,13 +47,6 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
         bindReviews(placeDetails.reviews)
     }
 
-    private fun bindReviews(reviews: List<Reviews>) {
-        this.reviews.clear()
-
-        this.reviews.addAll(reviews)
-        this.reviewsAdapter?.notifyDataSetChanged()
-    }
-
     override fun showError(throwable: Throwable, tag: String, message: Int) {
         contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) { presenter.fetchPlaceDetails(place) }
     }
@@ -64,6 +57,18 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
 
     override fun hideLoading() {
         progress.visibility = View.GONE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.destroy()
+    }
+
+    private fun bindReviews(reviews: List<Reviews>) {
+        this.reviews.clear()
+
+        this.reviews.addAll(reviews)
+        this.reviewsAdapter?.notifyDataSetChanged()
     }
 
     private fun bindPlaceInfo(images: MutableList<String>?, place: Place) {

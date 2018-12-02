@@ -12,7 +12,7 @@ abstract class RxPresenter(val observeOn: Scheduler,
 
     var disposable: Disposable? = null
 
-    override fun pause() {
+    override fun destroy() {
         disposable?.dispose()
     }
 }
