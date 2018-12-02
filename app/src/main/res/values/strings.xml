@@ -6,4 +6,5 @@
     <string name="bars">Bars</string>
     <string name="cafes">Cafes</string>
     <string name="restaurants">Restaurants</string>
+    <string name="retry">Retry</string>
 </resources>

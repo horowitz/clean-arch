@@ -3,7 +3,6 @@ package com.example.danielhorowitz.clean.presentation.places
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.example.danielhorowitz.clean.R
 import com.example.danielhorowitz.clean.domain.model.Location
 import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
@@ -12,6 +11,8 @@ import com.example.danielhorowitz.clean.presentation.common.LocationHandler
 import dagger.android.AndroidInjection
 import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.contentView
+import org.jetbrains.anko.design.indefiniteSnackbar
 import javax.inject.Inject
 
 class PlacesActivity : AppCompatActivity(), PlacesContract.View {
@@ -73,7 +74,7 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     }
 
     override fun showError(throwable: Throwable, tag: String, message: Int) {
-        Toast.makeText(this.applicationContext, R.string.unexpected_error, Toast.LENGTH_SHORT).show()
+        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) {presenter.fetchNearbyPlaces()}
     }
 
     override fun showLoading() {

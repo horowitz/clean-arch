@@ -11,6 +11,8 @@ import com.example.danielhorowitz.clean.domain.model.Reviews
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_place_details.*
 import kotlinx.android.synthetic.main.place_extra_info.view.*
+import org.jetbrains.anko.contentView
+import org.jetbrains.anko.design.indefiniteSnackbar
 import org.jetbrains.anko.textColor
 import javax.inject.Inject
 
@@ -22,12 +24,14 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
 
     private val reviews = mutableListOf<Reviews>()
 
+    private var place: Place? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_place_details)
 
-        val place = getPlaceFromExtras()
+        place = getPlaceFromExtras()
 
         presenter.fetchPlaceDetails(place?.id)
 
@@ -50,7 +54,7 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
     }
 
     override fun showError(throwable: Throwable, tag: String, message: Int) {
-
+        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) { presenter.fetchPlaceDetails(place?.id) }
     }
 
     override fun showLoading() {
@@ -68,8 +72,8 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
 
         tvTitle.text = place.name
         tvSubtitle.text = place.vicinity
-        placeExtraInfoView.tvItemRating.textColor = ContextCompat.getColor(this,android.R.color.darker_gray)
-        placeExtraInfoView.tvDistance.textColor = ContextCompat.getColor(this,android.R.color.darker_gray)
+        placeExtraInfoView.tvItemRating.textColor = ContextCompat.getColor(this, android.R.color.darker_gray)
+        placeExtraInfoView.tvDistance.textColor = ContextCompat.getColor(this, android.R.color.darker_gray)
         placeExtraInfoView.bind(place)
     }
 

@@ -61,7 +61,9 @@ dependencies {
     implementation 'com.karumi:dexter:4.2.0'
 
     //Anko
-    implementation "org.jetbrains.anko:anko:0.10.4"
+    implementation "org.jetbrains.anko:anko:0.10.8"
+    implementation "org.jetbrains.anko:anko-commons:0.10.8"
+    implementation "org.jetbrains.anko:anko-design:0.10.8"
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
