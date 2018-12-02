@@ -3,6 +3,7 @@ package com.example.danielhorowitz.clean.presentation.details
 import com.example.danielhorowitz.clean.domain.PlaceDetailsInteractor
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
 import io.reactivex.Scheduler
+import io.reactivex.Single
 
 class PlaceDetailsPresenter(
     private val view: PlaceDetailsContract.View,
@@ -14,7 +15,8 @@ class PlaceDetailsPresenter(
     override fun fetchPlaceDetails(placeId: String?) {
         view.showLoading()
 
-        disposable = interactor.fetchPlaceDetails(requireNotNull(placeId))
+        disposable = Single.fromCallable { requireNotNull(placeId) }
+            .flatMap { interactor.fetchPlaceDetails(it) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
             .subscribe({ placeDetails ->
@@ -24,7 +26,6 @@ class PlaceDetailsPresenter(
                 view.hideLoading()
                 view.showError(it)
             })
-
     }
 
 }

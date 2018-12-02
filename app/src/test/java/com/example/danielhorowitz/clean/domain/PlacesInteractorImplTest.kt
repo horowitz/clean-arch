@@ -6,7 +6,6 @@ import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
 import com.example.danielhorowitz.clean.fromJson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.junit.Assert.assertNotNull
@@ -14,9 +13,8 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import java.io.File
 
-class PlacesInteractorImplTest {
+class PlacesInteractorImplTest: BaseTest() {
     @Mock
     lateinit var googlePlacesRepository: GooglePlacesRepository
 
@@ -35,7 +33,6 @@ class PlacesInteractorImplTest {
     @Test
     fun `should return list of places given nearby search successful`() {
         givenNearbySearchSuccessful()
-        givenPlaceDetailsSuccessful()
 
         val result = interactor.fetchNearbyPlaces(0.0, 0.0)
             .observeOn(Schedulers.trampoline())
@@ -55,16 +52,4 @@ class PlacesInteractorImplTest {
         whenever(googlePlacesRepository.nearbySearch(any(), any(), any(), any()))
             .thenReturn(Single.just(nearbySearchDTO))
     }
-
-    private fun givenPlaceDetailsSuccessful() {
-        whenever(googlePlacesRepository.getPlacesDetails(any()))
-            .thenReturn(Observable.just(placeDetailsDTO))
-    }
-
-    private fun getResource(fileName: String): File {
-        val loader = ClassLoader.getSystemClassLoader()
-        val resource = loader.getResource(fileName)
-        return File(resource.path)
-    }
-
 }

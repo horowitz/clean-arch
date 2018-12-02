@@ -1,6 +1,11 @@
 package com.example.danielhorowitz.clean.presentation.details
 
 import com.example.danielhorowitz.clean.domain.PlaceDetailsInteractor
+import com.example.danielhorowitz.clean.domain.model.PlaceDetails
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +31,60 @@ class PlaceDetailsPresenterTest {
     }
 
     @Test
-    fun foo() {
+    fun `should show place info given fetch place details success`() {
+        val placeDetails = PlaceDetails()
+        givenFetchPlaceDetailsSuccess(placeDetails)
         presenter.fetchPlaceDetails(placeId)
+
+        verify(view).showPlaceInfo(placeDetails)
+    }
+
+    @Test
+    fun `should show loading when fetching place details`() {
+        givenFetchPlaceDetailsSuccess(PlaceDetails())
+        presenter.fetchPlaceDetails(placeId)
+
+        verify(view).showLoading()
+    }
+
+    @Test
+    fun `should hide loading when place details fetched`() {
+        givenFetchPlaceDetailsSuccess(PlaceDetails())
+        presenter.fetchPlaceDetails(placeId)
+
+        verify(view).hideLoading()
+    }
+
+    @Test
+    fun `should show error when place details fails`() {
+        val exception = Exception()
+        givenFetchPlaceDetailsFails(exception)
+        presenter.fetchPlaceDetails(placeId)
+
+        verify(view).showError(exception)
+    }
+
+    @Test
+    fun `should show error given null place id`() {
+        givenFetchPlaceDetailsFails(Exception())
+        presenter.fetchPlaceDetails(null)
+
+        verify(view).showError(any(),any(), any())
+    }
+
+    @Test
+    fun `should hide loading when place details fails`() {
+        givenFetchPlaceDetailsFails(Exception())
+        presenter.fetchPlaceDetails(placeId)
+
+        verify(view).hideLoading()
+    }
+
+    private fun givenFetchPlaceDetailsFails(exception: Exception) {
+        whenever(interactor.fetchPlaceDetails(placeId)).thenReturn(Single.error(exception))
+    }
+
+    private fun givenFetchPlaceDetailsSuccess(placeDetails: PlaceDetails) {
+        whenever(interactor.fetchPlaceDetails(placeId)).thenReturn(Single.just(placeDetails))
     }
 }
