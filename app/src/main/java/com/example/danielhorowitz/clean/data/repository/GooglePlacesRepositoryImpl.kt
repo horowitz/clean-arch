@@ -4,8 +4,6 @@ import com.example.danielhorowitz.clean.data.model.NearbySearchDTO
 import com.example.danielhorowitz.clean.data.model.PlaceDetailsDTO
 import com.example.danielhorowitz.clean.data.network.GooglePlacesAPI
 import com.example.danielhorowitz.clean.data.network.NetworkConfig
-import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
-import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
@@ -16,7 +14,7 @@ class GooglePlacesRepositoryImpl(private val googlePlacesAPI: GooglePlacesAPI) :
         return googlePlacesAPI.nearbySearch(location, radius, type,rankBy, NetworkConfig.GOOGLE_MAPS_KEY)
     }
 
-    override fun getPlacesDetails(placeId: String): Observable<PlaceDetailsDTO> =
+    override fun getPlacesDetails(placeId: String): Single<PlaceDetailsDTO> =
             googlePlacesAPI.getPlaceDetails(NetworkConfig.GOOGLE_MAPS_KEY, placeId)
 
 }
