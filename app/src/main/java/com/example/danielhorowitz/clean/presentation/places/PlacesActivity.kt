@@ -74,7 +74,7 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     }
 
     override fun showError(throwable: Throwable, tag: String, message: Int) {
-        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) {presenter.fetchNearbyPlaces()}
+        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) { presenter.fetchNearbyPlaces() }
     }
 
     override fun showLoading() {
