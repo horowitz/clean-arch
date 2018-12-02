@@ -29,6 +29,7 @@
                     android:layout_height="match_parent"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     app:title="@string/cafes"
+                    android:nestedScrollingEnabled="false"
                     style="@style/place_titled_recycler"/>
 
             <com.example.danielhorowitz.clean.presentation.common.TitledRecyclerView
@@ -37,6 +38,7 @@
                     android:layout_height="match_parent"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     app:title="@string/bars"
+                    android:nestedScrollingEnabled="false"
                     style="@style/place_titled_recycler"/>
 
             <com.example.danielhorowitz.clean.presentation.common.TitledRecyclerView
@@ -45,6 +47,7 @@
                     android:layout_height="match_parent"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     app:title="@string/restaurants"
+                    android:nestedScrollingEnabled="false"
                     style="@style/place_titled_recycler"/>
 
         </LinearLayout>

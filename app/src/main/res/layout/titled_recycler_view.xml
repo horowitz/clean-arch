@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/titled_recycler_margin_to_title"
             android:orientation="horizontal"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
 </LinearLayout>
