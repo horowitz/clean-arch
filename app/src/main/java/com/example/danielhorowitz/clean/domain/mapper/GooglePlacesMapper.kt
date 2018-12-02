@@ -24,6 +24,13 @@ interface GooglePlacesMapper {
 
     fun convertNearbySearch(nearbySearchDTOs: List<NearbyPlaceResultDTO>): List<Place>
 
+    @Mappings(
+        Mapping(source = "openingHours.openNow", target = "place.openNow"),
+        Mapping(source = "id", target = "place.id"),
+        Mapping(source = "name", target = "place.name"),
+        Mapping(source = "rating", target = "place.rating"),
+        Mapping(source = "vicinity", target = "place.vicinity")
+    )
     fun convertPlaceDetails(placeDetailsResultDTO: PlaceDetailsResultDTO): PlaceDetails
 
     fun convertReviews(reviewsItem: ReviewsItem): Reviews

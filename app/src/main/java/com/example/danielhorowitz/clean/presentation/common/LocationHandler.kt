@@ -29,42 +29,45 @@ interface LocationHandler {
 
 @SuppressLint("MissingPermission")
 class LocationHandlerImpl(val activity: Activity) : LocationHandler {
-    val looper = Looper.myLooper()
-    val handler = Handler(looper)
+    private val looper = Looper.myLooper()
+    private val handler = Handler(looper)
 
     override fun getCurrentLocation(): Single<Location> {
-        return Single.create {
+        return Single.create { emitter ->
             Dexter.withActivity(activity)
                 .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                         if (report?.areAllPermissionsGranted() == true) {
-                            createSingleLocationRequest(it)
+                            createSingleLocationRequest(emitter)
+                        } else {
+                            emitter.onError(LocationException())
                         }
                     }
 
                     override fun onPermissionRationaleShouldBeShown(
                         permissions: MutableList<PermissionRequest>?,
-                        token: PermissionToken?
-                    ) {
-                        it.onError(LocationException())
-                        activity.alert(R.string.location_permission_denied, R.string.location_permission_title) {
-                            yesButton { dialog ->
-                                dialog.dismiss()
-                                token?.continuePermissionRequest()
-                            }
-                            noButton { dialog ->
-                                dialog.dismiss()
-                                token?.cancelPermissionRequest()
-                            }
-                            onCancelled {
-                                token?.cancelPermissionRequest()
-                            }
-                        }.show()
+                        token: PermissionToken?) {
+                        handlePermissionDenied(emitter, token)
                     }
-
                 }).check()
         }
+    }
+
+    private fun handlePermissionDenied(emitter: SingleEmitter<Location>, token: PermissionToken?) {
+        activity.alert(R.string.location_permission_denied, R.string.location_permission_title) {
+            yesButton { dialog ->
+                dialog.dismiss()
+                token?.continuePermissionRequest()
+            }
+            noButton { dialog ->
+                dialog.dismiss()
+                token?.cancelPermissionRequest()
+            }
+            onCancelled {
+                token?.cancelPermissionRequest()
+            }
+        }.show()
     }
 
     private fun createSingleLocationRequest(emitter: SingleEmitter<Location>) {

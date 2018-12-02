@@ -25,7 +25,7 @@ class PlaceDetailsInteractorImpl(private val googlePlacesRepository: GooglePlace
     ): PlaceDetails {
         val details = Mappers.getMapper(GooglePlacesMapper::class.java).convertPlaceDetails(placeDetailsDTO.result)
         placeDetailsDTO.result.photos?.forEach { details.place.addPhotoFromGooglePlaces(it.photoReference) }
-        details.place = place
+        details.place.distance = place.distance
         return details
     }
 
