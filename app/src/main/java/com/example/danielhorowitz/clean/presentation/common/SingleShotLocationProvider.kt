@@ -7,40 +7,48 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 
-class SingleShotLocationProvider(val onLocationReceived: (Location) -> Unit) {
+class SingleShotLocationProvider(private val looper: Looper, val onLocationReceived: (Location) -> Unit) {
+    lateinit var locationManager: LocationManager
+    private var locationListener: LocationListener? = null
 
     @SuppressLint("MissingPermission")
     fun requestSingleUpdate(context: Context) {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                onLocationReceived(location)
+            }
+
+            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
+                print("foo")
+            }
+
+            override fun onProviderEnabled(provider: String) {
+                print("foo")
+            }
+
+            override fun onProviderDisabled(provider: String) {
+                print("foo")
+            }
+        }
         if (isNetworkEnabled) {
             val criteria = Criteria()
-            criteria.accuracy = Criteria.ACCURACY_COARSE
-            locationManager.requestSingleUpdate(criteria, object : LocationListener {
-                override fun onLocationChanged(location: Location) {
-                    onLocationReceived(location)
-                }
-
-                override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-                override fun onProviderEnabled(provider: String) {}
-                override fun onProviderDisabled(provider: String) {}
-            }, null)
+            criteria.accuracy = Criteria.ACCURACY_FINE
+            locationManager.requestSingleUpdate(criteria, locationListener, looper)
         } else {
             val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             if (isGPSEnabled) {
                 val criteria = Criteria()
                 criteria.accuracy = Criteria.ACCURACY_FINE
-                locationManager.requestSingleUpdate(criteria, object : LocationListener {
-                    override fun onLocationChanged(location: Location) {
-                        onLocationReceived(location)
-                    }
-
-                    override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-                    override fun onProviderEnabled(provider: String) {}
-                    override fun onProviderDisabled(provider: String) {}
-                }, null)
+                locationManager.requestSingleUpdate(criteria, locationListener, looper)
             }
         }
+    }
+
+    fun removeUpdates(){
+        locationManager.removeUpdates(locationListener)
     }
 }

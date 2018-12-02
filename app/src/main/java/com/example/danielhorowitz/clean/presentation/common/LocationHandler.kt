@@ -3,6 +3,8 @@ package com.example.danielhorowitz.clean.presentation.common
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Handler
+import android.os.Looper
 import com.example.danielhorowitz.clean.R
 import com.example.danielhorowitz.clean.domain.model.Location
 import com.karumi.dexter.Dexter
@@ -15,6 +17,7 @@ import io.reactivex.SingleEmitter
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.yesButton
+import java.net.SocketTimeoutException
 
 /**
  * Created by danielhorowitz on 24/03/18.
@@ -26,6 +29,8 @@ interface LocationHandler {
 
 @SuppressLint("MissingPermission")
 class LocationHandlerImpl(val activity: Activity) : LocationHandler {
+    val looper = Looper.myLooper()
+    val handler = Handler(looper)
 
     override fun getCurrentLocation(): Single<Location> {
         return Single.create {
@@ -63,9 +68,16 @@ class LocationHandlerImpl(val activity: Activity) : LocationHandler {
     }
 
     private fun createSingleLocationRequest(emitter: SingleEmitter<Location>) {
-        val provider = SingleShotLocationProvider {
+        val provider = SingleShotLocationProvider(looper) {
             emitter.onSuccess(Location(it.latitude, it.longitude))
+            handler.removeCallbacksAndMessages(null)
         }
+
+        handler.postDelayed({
+            provider.removeUpdates()
+            emitter.onError(SocketTimeoutException())
+        }, 15000)
+
         provider.requestSingleUpdate(activity)
     }
 }
