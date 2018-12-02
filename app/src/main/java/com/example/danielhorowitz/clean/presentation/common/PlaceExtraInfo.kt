@@ -20,6 +20,7 @@ class PlaceExtraInfo @JvmOverloads constructor(
 
     fun bind(place: Place) {
         tvItemRating.text = place.rating.toString()
+        tvDistance.text = context.getString(R.string.distance, place.distance)
         ivOpenClosed.setImageResource(if (place.openNow) R.drawable.ic_open else R.drawable.ic_closed)
     }
 }

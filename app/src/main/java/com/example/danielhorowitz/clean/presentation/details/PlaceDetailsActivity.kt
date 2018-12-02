@@ -33,7 +33,7 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
 
         place = getPlaceFromExtras()
 
-        presenter.fetchPlaceDetails(place?.id)
+        presenter.fetchPlaceDetails(place)
 
         reviewsAdapter = PlaceReviewsAdapter(reviews)
         val snapHelper = StartSnapHelper()
@@ -55,7 +55,7 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
     }
 
     override fun showError(throwable: Throwable, tag: String, message: Int) {
-        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) { presenter.fetchPlaceDetails(place?.id) }
+        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) { presenter.fetchPlaceDetails(place) }
     }
 
     override fun showLoading() {

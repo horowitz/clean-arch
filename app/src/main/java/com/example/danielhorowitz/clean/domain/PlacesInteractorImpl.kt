@@ -1,5 +1,6 @@
 package com.example.danielhorowitz.clean.domain
 
+import android.location.Location
 import com.example.danielhorowitz.clean.data.model.NearbyPlaceResultDTO
 import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
 import com.example.danielhorowitz.clean.domain.mapper.GooglePlacesMapper
@@ -23,11 +24,9 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
     }
 
     override fun fetchNearbyPlaces(latitude: Double, longitude: Double): Single<NearbyPlaces> {
-        val latLng = "$latitude, $longitude"
-
-        val restaurantsObservable = createPlacesObservable(latLng, RESTAURANT_TYPE)
-        val barsObservable = createPlacesObservable(latLng, BAR_TYPE)
-        val cafesObservable = createPlacesObservable(latLng, CAFE_TYPE)
+        val restaurantsObservable = createPlacesObservable(latitude, longitude, RESTAURANT_TYPE)
+        val barsObservable = createPlacesObservable(latitude, longitude, BAR_TYPE)
+        val cafesObservable = createPlacesObservable(latitude, longitude, CAFE_TYPE)
 
         return Single.zip(restaurantsObservable,
             barsObservable,
@@ -38,18 +37,40 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
     }
 
     private fun createPlacesObservable(
-        latLng: String,
+        latitude: Double,
+        longitude: Double,
         type: String
     ): Single<List<Place>>? {
+        val latLng = "$latitude, $longitude"
         return googlePlacesRepository.nearbySearch(latLng, RADIUS, type, RANK_BY_DISTANCE)
             .map { requireNotNull(it.results) }
-            .map { convertNearbyPlaceResultToPresentation(it) }
+            .map { convertNearbyPlaceResultToPresentation(it,latitude, longitude) }
     }
 
-    private fun convertNearbyPlaceResultToPresentation(nearbyPlaceResultDTOs: List<NearbyPlaceResultDTO>): List<Place> =
+    private fun convertNearbyPlaceResultToPresentation(
+        nearbyPlaceResultDTOs: List<NearbyPlaceResultDTO>,
+        latitude: Double,
+        longitude: Double
+    ): List<Place> =
         nearbyPlaceResultDTOs.map { dto ->
             val place = Mappers.getMapper(GooglePlacesMapper::class.java).convertNearbySearch(dto)
             dto.photos?.first()?.let { place.addPhotoFromGooglePlaces(it.photoReference) }
+            val location = requireNotNull(dto.geometry?.location)
+            place.distance = calculateDistance(latitude, longitude, location).toDouble()
             place
         }
+
+    private fun calculateDistance(
+        latitude: Double,
+        longitude: Double,
+        location: com.example.danielhorowitz.clean.data.model.Location
+    ): Float {
+        val currentLocation = Location("")
+        currentLocation.longitude = longitude
+        currentLocation.latitude = latitude
+        val placeLocation = Location("")
+        placeLocation.latitude = location.lat
+        placeLocation.longitude = location.lng
+        return currentLocation.distanceTo(placeLocation) / 1000
+    }
 }

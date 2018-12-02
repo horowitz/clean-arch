@@ -1,6 +1,7 @@
 package com.example.danielhorowitz.clean.presentation.details
 
 import com.example.danielhorowitz.clean.domain.PlaceDetailsInteractor
+import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.domain.model.PlaceDetails
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
@@ -19,7 +20,7 @@ class PlaceDetailsPresenterTest {
     @Mock
     lateinit var interactor: PlaceDetailsInteractor
 
-    private val placeId = "123"
+    private val place = Place(id = "123")
 
     private val presenter: PlaceDetailsContract.Presenter by lazy {
         PlaceDetailsPresenter(view, interactor, Schedulers.trampoline(), Schedulers.trampoline())
@@ -34,7 +35,7 @@ class PlaceDetailsPresenterTest {
     fun `should show place info given fetch place details success`() {
         val placeDetails = PlaceDetails()
         givenFetchPlaceDetailsSuccess(placeDetails)
-        presenter.fetchPlaceDetails(placeId)
+        presenter.fetchPlaceDetails(place)
 
         verify(view).showPlaceInfo(placeDetails)
     }
@@ -42,7 +43,7 @@ class PlaceDetailsPresenterTest {
     @Test
     fun `should show loading when fetching place details`() {
         givenFetchPlaceDetailsSuccess(PlaceDetails())
-        presenter.fetchPlaceDetails(placeId)
+        presenter.fetchPlaceDetails(place)
 
         verify(view).showLoading()
     }
@@ -50,7 +51,7 @@ class PlaceDetailsPresenterTest {
     @Test
     fun `should hide loading when place details fetched`() {
         givenFetchPlaceDetailsSuccess(PlaceDetails())
-        presenter.fetchPlaceDetails(placeId)
+        presenter.fetchPlaceDetails(place)
 
         verify(view).hideLoading()
     }
@@ -59,7 +60,7 @@ class PlaceDetailsPresenterTest {
     fun `should show error when place details fails`() {
         val exception = Exception()
         givenFetchPlaceDetailsFails(exception)
-        presenter.fetchPlaceDetails(placeId)
+        presenter.fetchPlaceDetails(place)
 
         verify(view).showError(exception)
     }
@@ -75,16 +76,16 @@ class PlaceDetailsPresenterTest {
     @Test
     fun `should hide loading when place details fails`() {
         givenFetchPlaceDetailsFails(Exception())
-        presenter.fetchPlaceDetails(placeId)
+        presenter.fetchPlaceDetails(place)
 
         verify(view).hideLoading()
     }
 
     private fun givenFetchPlaceDetailsFails(exception: Exception) {
-        whenever(interactor.fetchPlaceDetails(placeId)).thenReturn(Single.error(exception))
+        whenever(interactor.fetchPlaceDetails(place)).thenReturn(Single.error(exception))
     }
 
     private fun givenFetchPlaceDetailsSuccess(placeDetails: PlaceDetails) {
-        whenever(interactor.fetchPlaceDetails(placeId)).thenReturn(Single.just(placeDetails))
+        whenever(interactor.fetchPlaceDetails(place)).thenReturn(Single.just(placeDetails))
     }
 }

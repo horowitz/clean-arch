@@ -11,13 +11,14 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Place(
     var name: String = "",
-    var images: MutableList<String>,
+    var images: MutableList<String> = mutableListOf(),
     var rating: Double = 0.0,
+    var distance: Double = 0.0,
     var vicinity: String = "",
     var id: String = "",
     var openNow: Boolean = false
 ) : Parcelable {
-    constructor() : this("", mutableListOf<String>(), 0.0, "", "")
+    constructor() : this("", mutableListOf<String>(), 0.0,0.0, "", "")
 
     fun addPhotoFromGooglePlaces(photoReference: String) {
         val url =

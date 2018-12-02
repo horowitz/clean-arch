@@ -1,6 +1,7 @@
 package com.example.danielhorowitz.clean.presentation.details
 
 import com.example.danielhorowitz.clean.domain.PlaceDetailsInteractor
+import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -12,10 +13,10 @@ class PlaceDetailsPresenter(
     subscribeOn: Scheduler
 ) : RxPresenter(observeOn, subscribeOn), PlaceDetailsContract.Presenter {
 
-    override fun fetchPlaceDetails(placeId: String?) {
+    override fun fetchPlaceDetails(place: Place?) {
         view.showLoading()
 
-        disposable = Single.fromCallable { requireNotNull(placeId) }
+        disposable = Single.fromCallable { requireNotNull(place) }
             .flatMap { interactor.fetchPlaceDetails(it) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)

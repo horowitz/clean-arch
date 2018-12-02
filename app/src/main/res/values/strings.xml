@@ -7,4 +7,5 @@
     <string name="cafes">Cafes</string>
     <string name="restaurants">Restaurants</string>
     <string name="retry">Retry</string>
+    <string name="distance">%.2f km</string>
 </resources>

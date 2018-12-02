@@ -2,10 +2,12 @@ package com.example.danielhorowitz.clean.domain
 
 import com.example.danielhorowitz.clean.data.model.PlaceDetailsDTO
 import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
+import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.fromJson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -18,7 +20,7 @@ class PlaceDetailsInteractorImplTest : BaseTest() {
     val interactor by lazy { PlaceDetailsInteractorImpl(googlePlacesRepository) }
 
     private lateinit var placeDetailsDTO: PlaceDetailsDTO
-    private val placeId: String = "4f89212bf76dde31f092cfc14d7506555d85b5c7"
+    private val place = Place(id = "4f89212bf76dde31f092cfc14d7506555d85b5c7",name = "Google")
 
     @Before
     fun setUp() {
@@ -30,11 +32,11 @@ class PlaceDetailsInteractorImplTest : BaseTest() {
     fun `should return place details given fetch successful`() {
         givenPlaceDetailsSuccessful()
 
-        val placeDetails = interactor.fetchPlaceDetails(placeId)
+        val placeDetails = interactor.fetchPlaceDetails(place)
             .test()
             .values().first()
 
-        assert(placeDetails.place.name == placeDetailsDTO.result.name)
+        Assert.assertEquals(placeDetails.place.name, placeDetailsDTO.result.name)
     }
 
     private fun givenPlaceDetailsSuccessful() {

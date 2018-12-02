@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.danielhorowitz.clean.R
 import com.example.danielhorowitz.clean.domain.model.Place
+import com.example.danielhorowitz.clean.presentation.common.PlaceExtraInfo
 import com.example.danielhorowitz.clean.presentation.common.load
 
 
@@ -32,17 +33,16 @@ class PlacesAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvSubtitle = itemView.findViewById<TextView>(R.id.tvSubtitle)
-        private val tvRating = itemView.findViewById<TextView>(R.id.tvItemRating)
         private val ivPlace = itemView.findViewById<ImageView>(R.id.ivPlace)
-        private val ivOpenClosed = itemView.findViewById<ImageView>(R.id.ivOpenClosed)
+        private val placeExtraInfo = itemView.findViewById<PlaceExtraInfo>(R.id.placeExtraInfoView)
 
         fun bind(place: Place, itemClicked: (Place) -> Unit) {
             ivPlace.load(place.images.firstOrNull() ?: "")
             tvTitle.text = place.name
             tvSubtitle.text = place.vicinity
-            tvRating.text = place.rating.toString()
-            ivOpenClosed.setImageResource(if (place.openNow) R.drawable.ic_open else R.drawable.ic_closed)
             itemView.setOnClickListener { itemClicked(place) }
+
+            placeExtraInfo.bind(place)
         }
     }
 }
