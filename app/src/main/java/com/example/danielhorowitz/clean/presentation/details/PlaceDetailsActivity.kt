@@ -42,6 +42,7 @@ class PlaceDetailsActivity : AppCompatActivity(), PlaceDetailsContract.View {
     }
 
     override fun showPlaceInfo(placeDetails: PlaceDetails) {
+        content.visibility = View.VISIBLE
         bindPlaceInfo(placeDetails.place.images, placeDetails.place)
         bindReviews(placeDetails.reviews)
     }
