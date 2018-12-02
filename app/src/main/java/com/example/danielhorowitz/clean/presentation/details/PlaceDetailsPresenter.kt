@@ -17,10 +17,10 @@ class PlaceDetailsPresenter(
         disposable = interactor.fetchPlaceDetails(requireNotNull(placeId))
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
-            .subscribe({
+            .subscribe({ placeDetails ->
                 view.hideLoading()
-                view.showPlaceInfo(it.place)
-            },{
+                view.showPlaceInfo(placeDetails)
+            }, {
                 view.hideLoading()
                 view.showError(it)
             })
