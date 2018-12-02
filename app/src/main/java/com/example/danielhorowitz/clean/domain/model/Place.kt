@@ -15,10 +15,7 @@ data class Place(
     var rating: Double = 0.0,
     var vicinity: String = "",
     var id: String = "",
-    var openNow: Boolean = false,
-    var distance: Double = 0.0,
-    var voters: MutableList<String> = mutableListOf(),
-    var votes: Int = 0
+    var openNow: Boolean = false
 ) : Parcelable {
     constructor() : this("", mutableListOf<String>(), 0.0, "", "")
 
