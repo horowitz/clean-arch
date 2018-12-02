@@ -1,7 +1,6 @@
 package com.example.danielhorowitz.clean.domain
 
 import com.example.danielhorowitz.clean.data.model.NearbyPlaceResultDTO
-import com.example.danielhorowitz.clean.data.model.PlaceDetailsDTO
 import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
 import com.example.danielhorowitz.clean.domain.mapper.GooglePlacesMapper
 import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
@@ -53,11 +52,4 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
             dto.photos?.first()?.let { place.addPhotoFromGooglePlaces(it.photoReference) }
             place
         }
-
-
-    private fun convertToPresentation(placeDetailsDTO: PlaceDetailsDTO): Place {
-        val place = Mappers.getMapper(GooglePlacesMapper::class.java).convertPlaceDetails(placeDetailsDTO.result)
-        placeDetailsDTO.result.photos?.forEach { place.addPhotoFromGooglePlaces(it.photoReference) }
-        return place
-    }
 }
