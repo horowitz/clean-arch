@@ -47,19 +47,6 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
             .map { convertNearbyPlaceResultToPresentation(it) }
     }
 
-    override fun fetchNearbyRestaurants(latitude: Double, longitude: Double): Single<List<Place>> {
-        val latLng = "$latitude, $longitude"
-
-        return googlePlacesRepository.nearbySearch(latLng, RADIUS, RESTAURANT_TYPE, RANK_BY_DISTANCE)
-            .map { it.results ?: listOf() }
-            .flattenAsObservable { it }
-            .flatMap {
-                googlePlacesRepository.getPlacesDetails(it.placeId)
-            }
-            .map { convertToPresentation(it) }
-            .toList()
-    }
-
     private fun convertNearbyPlaceResultToPresentation(nearbyPlaceResultDTOs: List<NearbyPlaceResultDTO>): List<Place> =
         nearbyPlaceResultDTOs.map { dto ->
             val place = Mappers.getMapper(GooglePlacesMapper::class.java).convertNearbySearch(dto)
@@ -73,5 +60,4 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
         placeDetailsDTO.result.photos?.forEach { place.addPhotoFromGooglePlaces(it.photoReference) }
         return place
     }
-
 }

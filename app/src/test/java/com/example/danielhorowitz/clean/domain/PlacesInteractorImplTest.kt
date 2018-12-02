@@ -37,7 +37,7 @@ class PlacesInteractorImplTest {
         givenNearbySearchSuccessful()
         givenPlaceDetailsSuccessful()
 
-        val result = interactor.fetchNearbyRestaurants(0.0, 0.0)
+        val result = interactor.fetchNearbyPlaces(0.0, 0.0)
             .observeOn(Schedulers.trampoline())
             .subscribeOn(Schedulers.trampoline())
             .test()
@@ -45,7 +45,10 @@ class PlacesInteractorImplTest {
         result.assertNoErrors()
         val places = result.values().first()
         assertNotNull(places)
-        assert(places.size == nearbySearchDTO.results?.size)
+        assert(places.bars.size == nearbySearchDTO.results?.size)
+        assert(places.cafes.size == nearbySearchDTO.results?.size)
+        assert(places.restaurants.size == nearbySearchDTO.results?.size)
+
     }
 
     private fun givenNearbySearchSuccessful() {

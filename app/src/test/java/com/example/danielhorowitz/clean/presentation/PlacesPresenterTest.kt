@@ -3,6 +3,7 @@ package com.example.danielhorowitz.clean.presentation
 import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.model.Location
+import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
 import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.places.PlacesContract
 import com.example.danielhorowitz.clean.presentation.places.PlacesPresenter
@@ -51,7 +52,7 @@ class PlacesPresenterTest {
 
     @Test
     fun `should show places given fetch nearby places successful`() {
-        val expectedPlaces = emptyList<Place>()
+        val expectedPlaces = NearbyPlaces(emptyList(),emptyList(),emptyList())
         givenFetchNearbyPlacesSuccessful(expectedPlaces)
         givenLocationObtained()
 
@@ -73,7 +74,8 @@ class PlacesPresenterTest {
 
     @Test
     fun `should show loading when fetching nearby places`() {
-        givenFetchNearbyPlacesSuccessful(emptyList())
+        val expectedPlaces = NearbyPlaces(emptyList(),emptyList(),emptyList())
+        givenFetchNearbyPlacesSuccessful(expectedPlaces)
         givenLocationObtained()
 
         presenter.fetchNearbyPlaces()
@@ -83,7 +85,8 @@ class PlacesPresenterTest {
 
     @Test
     fun `should hide loading when nearby places fetched`() {
-        givenFetchNearbyPlacesSuccessful(emptyList())
+        val expectedPlaces = NearbyPlaces(emptyList(),emptyList(),emptyList())
+        givenFetchNearbyPlacesSuccessful(expectedPlaces)
         givenLocationObtained()
 
         presenter.fetchNearbyPlaces()
@@ -92,15 +95,15 @@ class PlacesPresenterTest {
     }
 
     private fun givenFetchNearbyPlacesFails(exception: Exception) {
-        whenever(interactor.fetchNearbyRestaurants(any(), any())).thenReturn(Single.error(exception))
+        whenever(interactor.fetchNearbyPlaces(any(), any())).thenReturn(Single.error(exception))
     }
 
     private fun givenLocationObtained() {
         whenever(view.getCurrentLocation()).thenReturn(Single.just(Location(0.0, 0.0)))
     }
 
-    private fun givenFetchNearbyPlacesSuccessful(places: List<Place>) {
-        whenever(interactor.fetchNearbyRestaurants(any(), any())).thenReturn(Single.just(places))
+    private fun givenFetchNearbyPlacesSuccessful(places: NearbyPlaces) {
+        whenever(interactor.fetchNearbyPlaces(any(), any())).thenReturn(Single.just(places))
     }
 
 }
