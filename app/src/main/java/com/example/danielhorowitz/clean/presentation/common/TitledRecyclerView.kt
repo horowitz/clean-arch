@@ -1,6 +1,8 @@
 package com.example.danielhorowitz.clean.presentation.common
 
 import android.content.Context
+import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -25,6 +27,11 @@ class TitledRecyclerView @JvmOverloads constructor(
 
     fun setTitle(text: String) {
         tvTitle.text = text
+    }
+
+    fun setTitleDrawable(@DrawableRes id: Int) {
+        val drawable = ContextCompat.getDrawable(context, id)
+        tvTitle.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
     }
 
     private fun obtainAttributes(attrs: AttributeSet?) {

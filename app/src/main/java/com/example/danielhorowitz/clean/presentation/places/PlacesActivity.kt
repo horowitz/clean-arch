@@ -32,19 +32,26 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         AndroidInjection.inject(this)
-        presenter.fetchNearbyPlaces()
+        setupRecyclers()
+        swipeRefreshLayout.setOnRefreshListener { presenter.fetchNearbyPlaces() }
 
+        presenter.fetchNearbyPlaces()
+    }
+
+    private fun setupRecyclers() {
         barsAdapter = PlacesAdapter(bars) { presenter.onPlaceClicked(it) }
         cafesAdapter = PlacesAdapter(cafes) { presenter.onPlaceClicked(it) }
         restaurantsAdapter = PlacesAdapter(restaurants) { presenter.onPlaceClicked(it) }
 
+        barsRecyclerView.setTitleDrawable(R.drawable.ic_local_bar)
         barsRecyclerView.recyclerView.adapter = barsAdapter
-        cafesRecyclerView.recyclerView.adapter = cafesAdapter
-        restaurantsRecyclerView.recyclerView.adapter = restaurantsAdapter
 
-        swipeRefreshLayout.setOnRefreshListener { presenter.fetchNearbyPlaces() }
+        cafesRecyclerView.setTitleDrawable(R.drawable.ic_free_breakfast)
+        cafesRecyclerView.recyclerView.adapter = cafesAdapter
+
+        restaurantsRecyclerView.setTitleDrawable(R.drawable.ic_local_dining)
+        restaurantsRecyclerView.recyclerView.adapter = restaurantsAdapter
     }
 
     override fun getCurrentLocation(): Single<Location> = locationHandler.getCurrentLocation()

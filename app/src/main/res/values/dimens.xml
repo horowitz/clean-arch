@@ -4,4 +4,5 @@
     <dimen name="default_titled_recycler_text_size">18sp</dimen>
     <dimen name="place_item_width">300dp</dimen>
     <dimen name="place_item_height">200dp</dimen>
+    <dimen name="default_spacing">8dp</dimen>
 </resources>

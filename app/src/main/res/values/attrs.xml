@@ -3,5 +3,6 @@
     <declare-styleable name="TitledRecyclerView">
         <attr name="title"/>
         <attr name="textSize" format="reference"/>
+        <attr name="textIcon" format="reference"/>
     </declare-styleable>
 </resources>
