@@ -17,7 +17,7 @@ interface PlacesContract {
     }
 
     interface Presenter: BasePresenter {
-        fun onViewReady()
+        fun fetchNearbyPlaces()
         fun onPlaceClicked(place: Place)
     }
 }

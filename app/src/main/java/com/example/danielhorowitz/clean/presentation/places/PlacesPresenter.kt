@@ -21,7 +21,7 @@ class PlacesPresenter(
         navigator.navigateToPlaceDetails(place)
     }
 
-    override fun onViewReady() {
+    override fun fetchNearbyPlaces() {
         view.showLoading()
 
         disposable = view.getCurrentLocation()

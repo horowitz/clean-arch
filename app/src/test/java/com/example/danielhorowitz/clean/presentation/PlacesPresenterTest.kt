@@ -55,7 +55,7 @@ class PlacesPresenterTest {
         givenFetchNearbyPlacesSuccessful(expectedPlaces)
         givenLocationObtained()
 
-        presenter.onViewReady()
+        presenter.fetchNearbyPlaces()
 
         verify(view).showPlaces(expectedPlaces)
     }
@@ -66,7 +66,7 @@ class PlacesPresenterTest {
         givenFetchNearbyPlacesFails(exception)
         givenLocationObtained()
 
-        presenter.onViewReady()
+        presenter.fetchNearbyPlaces()
 
         verify(view).showError(eq(exception), any(), any())
     }
@@ -76,7 +76,7 @@ class PlacesPresenterTest {
         givenFetchNearbyPlacesSuccessful(emptyList())
         givenLocationObtained()
 
-        presenter.onViewReady()
+        presenter.fetchNearbyPlaces()
 
         verify(view).showLoading()
     }
@@ -86,7 +86,7 @@ class PlacesPresenterTest {
         givenFetchNearbyPlacesSuccessful(emptyList())
         givenLocationObtained()
 
-        presenter.onViewReady()
+        presenter.fetchNearbyPlaces()
 
         verify(view).hideLoading()
     }

@@ -34,7 +34,7 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
         setContentView(R.layout.activity_main)
 
         AndroidInjection.inject(this)
-        presenter.onViewReady()
+        presenter.fetchNearbyPlaces()
 
         barsAdapter = PlacesAdapter(bars) { presenter.onPlaceClicked(it) }
         cafesAdapter = PlacesAdapter(cafes) { presenter.onPlaceClicked(it) }
@@ -43,11 +43,15 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
         barsRecyclerView.recyclerView.adapter = barsAdapter
         cafesRecyclerView.recyclerView.adapter = cafesAdapter
         restaurantsRecyclerView.recyclerView.adapter = restaurantsAdapter
+
+        swipeRefreshLayout.setOnRefreshListener { presenter.fetchNearbyPlaces() }
     }
 
     override fun getCurrentLocation(): Single<Location> = locationHandler.getCurrentLocation()
 
     override fun showPlaces(places: NearbyPlaces) {
+        mainContent.visibility = View.VISIBLE
+
         this.bars.clear()
         this.cafes.clear()
         this.restaurants.clear()
@@ -66,11 +70,11 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     }
 
     override fun showLoading() {
-        progress.visibility = View.VISIBLE
+        swipeRefreshLayout.isRefreshing = true
     }
 
     override fun hideLoading() {
-        progress.visibility = View.GONE
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onPause() {
