@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">Flight-Search</string>
+    <string name="app_name">Clean-Arch</string>
     <string name="unexpected_error">An error has occurred</string>
+    <string name="location_permission_denied">To continue, allow the device to use location, which uses Google\'s Location Service</string>
+    <string name="location_permission_title">Location permission needed</string>
+    <string name="bars">Bars</string>
+    <string name="cafes">Cafes</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="retry">Retry</string>
+    <string name="distance">%.2f km</string>
 </resources>
