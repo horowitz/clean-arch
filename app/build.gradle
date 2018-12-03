@@ -1,14 +1,12 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.danielhorowitz.clean"
+        applicationId "com.example.danielhorowitz.flightsearch"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -21,13 +19,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
+
 }
+
 androidExtensions {
     experimental = true
 }
+
 kapt {
     generateStubs = true
 }
@@ -59,14 +57,6 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.1.0.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.1.0.Final'
     kapt 'org.mapstruct:mapstruct-processor:1.1.0.Final'
-
-    //Permissions
-    implementation 'com.karumi:dexter:4.2.0'
-
-    //Anko
-    implementation "org.jetbrains.anko:anko:0.10.8"
-    implementation "org.jetbrains.anko:anko-commons:0.10.8"
-    implementation "org.jetbrains.anko:anko-design:0.10.8"
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
