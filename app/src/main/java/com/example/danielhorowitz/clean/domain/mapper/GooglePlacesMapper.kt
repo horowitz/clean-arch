@@ -6,32 +6,49 @@ import com.example.danielhorowitz.clean.data.model.ReviewsItem
 import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.domain.model.PlaceDetails
 import com.example.danielhorowitz.clean.domain.model.Reviews
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.Mappings
 
 /**
  * Created by danielhorowitz on 17/03/18.
  */
-@Mapper
-interface GooglePlacesMapper {
+class GooglePlacesMapper {
 
-    @Mappings(
-        Mapping(source = "placeId", target = "id"),
-        Mapping(source = "openingHours.openNow", target = "openNow")
-    )
-    fun convertNearbySearch(nearbySearchDTO: NearbyPlaceResultDTO): Place
+    companion object {
+        fun convertNearbySearchResult(nearbySearchResultDTO: NearbyPlaceResultDTO): Place {
+            val name = nearbySearchResultDTO.name
+            val id = nearbySearchResultDTO.placeId
+            val images = mutableListOf<String>()
+            val rating = nearbySearchResultDTO.rating
+            val distance = 0.0
+            val vicinity = nearbySearchResultDTO.vicinity
+            val openNow = nearbySearchResultDTO.openingHours?.openNow ?: false
+            return Place(name, images, rating, distance, vicinity, id, openNow)
+        }
+        
+        fun convertPlaceDetails(placeDetailsResultDTO: PlaceDetailsResultDTO): PlaceDetails{
+            val name = placeDetailsResultDTO.name
+            val id = placeDetailsResultDTO.placeId
+            val images = mutableListOf<String>()
+            val rating = placeDetailsResultDTO.rating
+            val distance = 0.0
+            val vicinity = placeDetailsResultDTO.vicinity
+            val openNow = placeDetailsResultDTO.openingHours?.openNow ?: false
+            val place = Place(name, images, rating, distance, vicinity, id, openNow)
+            val reviews = convertReviews(placeDetailsResultDTO.reviews)
 
-    fun convertNearbySearch(nearbySearchDTOs: List<NearbyPlaceResultDTO>): List<Place>
+            return PlaceDetails(place,reviews)
+        }
 
-    @Mappings(
-        Mapping(source = "openingHours.openNow", target = "place.openNow"),
-        Mapping(source = "id", target = "place.id"),
-        Mapping(source = "name", target = "place.name"),
-        Mapping(source = "rating", target = "place.rating"),
-        Mapping(source = "vicinity", target = "place.vicinity")
-    )
-    fun convertPlaceDetails(placeDetailsResultDTO: PlaceDetailsResultDTO): PlaceDetails
-
-    fun convertReviews(reviewsItem: ReviewsItem): Reviews
+        private fun convertReviews(reviewDTOs: List<ReviewsItem>?): List<Reviews> {
+            val reviews = mutableListOf<Reviews>()
+            reviewDTOs?.forEach {
+                val authorName = it.authorName
+                val profilePhotoUrl = it.profilePhotoUrl
+                val rating = it.rating
+                val text = it.text
+                val relativeTimeDescription = it.relativeTimeDescription
+                reviews.add(Reviews(authorName,profilePhotoUrl,rating,text,relativeTimeDescription))
+            }
+            return reviews
+        }
+    }
 }

@@ -8,7 +8,6 @@ import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
 import com.example.danielhorowitz.clean.domain.model.Place
 import io.reactivex.Single
 import io.reactivex.functions.Function3
-import org.mapstruct.factory.Mappers
 
 /**
  * Created by danielhorowitz on 16/03/2018.
@@ -53,7 +52,7 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
         longitude: Double
     ): List<Place> =
         nearbyPlaceResultDTOs.map { dto ->
-            val place = Mappers.getMapper(GooglePlacesMapper::class.java).convertNearbySearch(dto)
+            val place = GooglePlacesMapper.convertNearbySearchResult(dto)
             dto.photos?.first()?.let { place.addPhotoFromGooglePlaces(it.photoReference) }
             val location = requireNotNull(dto.geometry?.location)
             place.distance = calculateDistance(latitude, longitude, location).toDouble()

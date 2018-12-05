@@ -55,11 +55,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-    //MAPSTRUCT
-    implementation 'org.mapstruct:mapstruct:1.1.0.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.1.0.Final'
-    kapt 'org.mapstruct:mapstruct-processor:1.1.0.Final'
-
     //Permissions
     implementation 'com.karumi:dexter:4.2.0'
 
