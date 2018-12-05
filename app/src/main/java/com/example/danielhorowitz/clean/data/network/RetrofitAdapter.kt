@@ -7,29 +7,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Created by danielhorowitz on 10/30/16.
- */
+object RetrofitAdapter {
+        val googlePlacesRetrofit: Retrofit
 
-class RetrofitAdapter {
-
-    fun getGooglePlacesRetrofit() = googlePlacesRetrofit
-
-    companion object {
-        private var instance: RetrofitAdapter? = null
-
-        lateinit var googlePlacesRetrofit: Retrofit
-
-
-        fun instance():  RetrofitAdapter  {
-                if (instance == null) {
-                    instance = RetrofitAdapter()
-                    init()
-                }
-                return instance!!
-        }
-
-        private fun init() {
+        init {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder().addInterceptor(interceptor)
@@ -38,12 +19,10 @@ class RetrofitAdapter {
                 .build()
 
             this.googlePlacesRetrofit = Retrofit.Builder()
-                    .baseUrl(NetworkConfig.GOOGLE_MAPS_API)
-                    .client(client)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
+                .baseUrl(NetworkConfig.GOOGLE_MAPS_API)
+                .client(client)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
         }
-    }
-
 }
