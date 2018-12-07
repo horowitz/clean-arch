@@ -19,7 +19,7 @@ data class Place(
     val openNow: Boolean = false) : Parcelable {
     fun addPhotoFromGooglePlaces(photoReference: String) {
         val url =
-            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s&key=${NetworkConfig.GOOGLE_MAPS_KEY}"
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s&key=${NetworkConfig.GOOGLE_PLACES_API_KEY}"
         images.add(String.format(url, photoReference))
     }
 }
