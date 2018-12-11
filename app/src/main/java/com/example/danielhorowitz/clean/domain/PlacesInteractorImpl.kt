@@ -8,6 +8,7 @@ import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
 import com.example.danielhorowitz.clean.domain.model.Place
 import io.reactivex.Single
 import io.reactivex.functions.Function3
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by danielhorowitz on 16/03/2018.
@@ -39,11 +40,12 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
         latitude: Double,
         longitude: Double,
         type: String
-    ): Single<List<Place>>? {
+    ): Single<List<Place>> {
         val latLng = "$latitude, $longitude"
         return googlePlacesRepository.nearbySearch(latLng, RADIUS, type, RANK_BY_DISTANCE)
             .map { requireNotNull(it.results) }
             .map { convertNearbyPlaceResultToPresentation(it,latitude, longitude) }
+            .subscribeOn(Schedulers.io())
     }
 
     private fun convertNearbyPlaceResultToPresentation(
