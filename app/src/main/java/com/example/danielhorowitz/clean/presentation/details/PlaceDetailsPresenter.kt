@@ -5,6 +5,7 @@ import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
 import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.rxkotlin.subscribeBy
 
 class PlaceDetailsPresenter(
     private val view: PlaceDetailsContract.View,
@@ -20,13 +21,15 @@ class PlaceDetailsPresenter(
             .flatMap { interactor.fetchPlaceDetails(it) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
-            .subscribe({ placeDetails ->
-                view.hideLoading()
-                view.showPlaceInfo(placeDetails)
-            }, {
-                view.hideLoading()
-                view.showError(it)
-            })
+            .subscribeBy(
+                onSuccess = { placeDetails ->
+                    view.hideLoading()
+                    view.showPlaceInfo(placeDetails)
+                },
+                onError = {
+                    view.hideLoading()
+                    view.showError(it)
+                })
     }
 
 }

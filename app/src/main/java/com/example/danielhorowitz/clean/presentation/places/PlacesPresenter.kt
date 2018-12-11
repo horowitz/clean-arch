@@ -5,6 +5,7 @@ import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
 import io.reactivex.Scheduler
+import io.reactivex.rxkotlin.subscribeBy
 
 /**
  * Created by danielhorowitz on 17/02/18.
@@ -29,13 +30,15 @@ class PlacesPresenter(
             .flatMap { location -> interactor.fetchNearbyPlaces(location.latitude, location.longitude) }
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
-            .subscribe({ places ->
-                view.hideLoading()
-                view.showPlaces(places)
-            }, { error ->
-                view.hideLoading()
-                view.showError(error, TAG)
-            })
+            .subscribeBy(
+                onSuccess = { places ->
+                    view.hideLoading()
+                    view.showPlaces(places)
+                },
+                onError = { error ->
+                    view.hideLoading()
+                    view.showError(error, TAG)
+                })
     }
 
     companion object {
