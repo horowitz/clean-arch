@@ -3,6 +3,7 @@ package com.example.danielhorowitz.clean.presentation.places
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.R
 import com.example.danielhorowitz.clean.domain.model.Location
 import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
@@ -18,6 +19,9 @@ import javax.inject.Inject
 class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     @Inject
     lateinit var presenter: PlacesContract.Presenter
+
+    @Inject
+    lateinit var navigator: Navigator
 
     @Inject
     lateinit var locationHandler: LocationHandler
@@ -40,19 +44,8 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
         presenter.fetchNearbyPlaces()
     }
 
-    private fun setupRecyclers() {
-        barsAdapter = PlacesAdapter(bars) { presenter.onPlaceClicked(it) }
-        cafesAdapter = PlacesAdapter(cafes) { presenter.onPlaceClicked(it) }
-        restaurantsAdapter = PlacesAdapter(restaurants) { presenter.onPlaceClicked(it) }
-
-        barsRecyclerView.setTitleDrawable(R.drawable.ic_local_bar)
-        barsRecyclerView.recyclerView.adapter = barsAdapter
-
-        cafesRecyclerView.setTitleDrawable(R.drawable.ic_free_breakfast)
-        cafesRecyclerView.recyclerView.adapter = cafesAdapter
-
-        restaurantsRecyclerView.setTitleDrawable(R.drawable.ic_local_dining)
-        restaurantsRecyclerView.recyclerView.adapter = restaurantsAdapter
+    override fun navigateToPlaceDetails(place: Place) {
+        navigator.navigateToPlaceDetails(place)
     }
 
     override fun getCurrentLocation(): Single<Location> = locationHandler.getCurrentLocation()
@@ -88,5 +81,20 @@ class PlacesActivity : AppCompatActivity(), PlacesContract.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter.destroy()
+    }
+
+    private fun setupRecyclers() {
+        barsAdapter = PlacesAdapter(bars) { presenter.onPlaceClicked(it) }
+        cafesAdapter = PlacesAdapter(cafes) { presenter.onPlaceClicked(it) }
+        restaurantsAdapter = PlacesAdapter(restaurants) { presenter.onPlaceClicked(it) }
+
+        barsRecyclerView.setTitleDrawable(R.drawable.ic_local_bar)
+        barsRecyclerView.recyclerView.adapter = barsAdapter
+
+        cafesRecyclerView.setTitleDrawable(R.drawable.ic_free_breakfast)
+        cafesRecyclerView.recyclerView.adapter = cafesAdapter
+
+        restaurantsRecyclerView.setTitleDrawable(R.drawable.ic_local_dining)
+        restaurantsRecyclerView.recyclerView.adapter = restaurantsAdapter
     }
 }

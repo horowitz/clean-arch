@@ -6,14 +6,15 @@ import com.example.danielhorowitz.clean.data.repository.GooglePlacesRepository
 import com.example.danielhorowitz.clean.domain.mapper.GooglePlacesMapper
 import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
 import com.example.danielhorowitz.clean.domain.model.Place
+import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.functions.Function3
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by danielhorowitz on 16/03/2018.
  */
-class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepository) : PlacesInteractor {
+class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepository,
+                           private val subscribeOn: Scheduler) : PlacesInteractor {
 
     companion object {
         private const val RADIUS = 500.0
@@ -45,7 +46,7 @@ class PlacesInteractorImpl(private val googlePlacesRepository: GooglePlacesRepos
         return googlePlacesRepository.nearbySearch(latLng, RADIUS, type, RANK_BY_DISTANCE)
             .map { requireNotNull(it.results) }
             .map { convertNearbyPlaceResultToPresentation(it,latitude, longitude) }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(subscribeOn)
     }
 
     private fun convertNearbyPlaceResultToPresentation(

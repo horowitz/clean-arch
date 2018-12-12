@@ -1,6 +1,5 @@
 package com.example.danielhorowitz.clean.presentation
 
-import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.model.Location
 import com.example.danielhorowitz.clean.domain.model.NearbyPlaces
@@ -24,14 +23,11 @@ class PlacesPresenterTest {
     lateinit var view: PlacesContract.View
     @Mock
     lateinit var interactor: PlacesInteractor
-    @Mock
-    lateinit var navigator: Navigator
 
     private val presenter by lazy {
         PlacesPresenter(
             view,
             interactor,
-            navigator,
             Schedulers.trampoline(),
             Schedulers.trampoline()
         )
@@ -47,7 +43,7 @@ class PlacesPresenterTest {
         val place = Place()
         presenter.onPlaceClicked(place)
 
-        verify(navigator).navigateToPlaceDetails(place)
+        verify(view).navigateToPlaceDetails(place)
     }
 
     @Test

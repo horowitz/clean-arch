@@ -1,6 +1,5 @@
 package com.example.danielhorowitz.clean.presentation.places
 
-import com.example.danielhorowitz.clean.Navigator
 import com.example.danielhorowitz.clean.domain.PlacesInteractor
 import com.example.danielhorowitz.clean.domain.model.Place
 import com.example.danielhorowitz.clean.presentation.common.RxPresenter
@@ -13,13 +12,12 @@ import io.reactivex.rxkotlin.subscribeBy
 class PlacesPresenter(
     private val view: PlacesContract.View,
     private val interactor: PlacesInteractor,
-    private val navigator: Navigator,
     observeOn: Scheduler,
     subscribeOn: Scheduler
 ) : RxPresenter(observeOn, subscribeOn), PlacesContract.Presenter {
 
     override fun onPlaceClicked(place: Place) {
-        navigator.navigateToPlaceDetails(place)
+        view.navigateToPlaceDetails(place)
     }
 
     override fun fetchNearbyPlaces() {

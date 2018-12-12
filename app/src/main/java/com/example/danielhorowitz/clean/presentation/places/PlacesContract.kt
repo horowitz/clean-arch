@@ -14,6 +14,7 @@ interface PlacesContract {
     interface View : BaseView {
         fun showPlaces(places: NearbyPlaces)
         fun getCurrentLocation(): Single<Location>
+        fun navigateToPlaceDetails(place: Place)
     }
 
     interface Presenter: BasePresenter {

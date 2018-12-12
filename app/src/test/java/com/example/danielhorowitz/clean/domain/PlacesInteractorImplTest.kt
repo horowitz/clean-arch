@@ -21,7 +21,7 @@ class PlacesInteractorImplTest: BaseTest() {
     private lateinit var nearbySearchDTO: NearbySearchDTO
     private lateinit var placeDetailsDTO: PlaceDetailsDTO
 
-    private val interactor by lazy { PlacesInteractorImpl(googlePlacesRepository) }
+    private val interactor by lazy { PlacesInteractorImpl(googlePlacesRepository, Schedulers.trampoline()) }
 
     @Before
     fun setup() {
