@@ -23,6 +23,5 @@ For more information check this link to get your API key
 - Rxjava2/RxKotlin
 - Picasso
 - Anko
-- Mapstruct
 - Dexter
 
