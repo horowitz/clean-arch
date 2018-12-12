@@ -31,9 +31,11 @@ class PlaceDetailsPresenterTest {
         MockitoAnnotations.initMocks(this)
     }
 
+    private val details = PlaceDetails(place, emptyList())
+
     @Test
     fun `should show place info given fetch place details success`() {
-        val placeDetails = PlaceDetails()
+        val placeDetails = details
         givenFetchPlaceDetailsSuccess(placeDetails)
         presenter.fetchPlaceDetails(place)
 
@@ -42,7 +44,7 @@ class PlaceDetailsPresenterTest {
 
     @Test
     fun `should show loading when fetching place details`() {
-        givenFetchPlaceDetailsSuccess(PlaceDetails())
+        givenFetchPlaceDetailsSuccess(details)
         presenter.fetchPlaceDetails(place)
 
         verify(view).showLoading()
@@ -50,7 +52,7 @@ class PlaceDetailsPresenterTest {
 
     @Test
     fun `should hide loading when place details fetched`() {
-        givenFetchPlaceDetailsSuccess(PlaceDetails())
+        givenFetchPlaceDetailsSuccess(details)
         presenter.fetchPlaceDetails(place)
 
         verify(view).hideLoading()
